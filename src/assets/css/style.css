@@ -68,17 +68,6 @@ select {
     text-align: start;
 }
 
-.erros {
-    border: solid 1px red;
-    border-radius: 5px;
-}
-
-#msgErro {
-    display: none;
-    color: red;
-
-}
-
 button {
     cursor: pointer;
 }
@@ -117,10 +106,6 @@ button:hover {
 
 }
 
-.errosTd {
-    border: 3px solid red;
-}
-
 .autocompleteList {
     background: white;
     list-style: none;
@@ -153,4 +138,12 @@ button:hover {
 .autocompleteWrapper {
     display: inline-block;
     position: relative;
+}
+
+.errosTd {
+    border: 3px solid red;
+}
+
+.msgErro {
+    display: none;
 }

@@ -13,14 +13,14 @@
         <img src="../public/img/selladm-logo.png">
         <h1>Formulário de contas a pagar</h1>
       </div>
-      <form autocomplete="off">
+      <form autocomplete="off" id="form-pgto">
         <table>
           <tr>
             <th>COD</th>
             <th>CONDOMÍNIO</th>
           </tr>
           <tr>
-            <td style="font-weight: 650;">
+            <td style="font-weight: 650;" id="td-codCond">
               <input
                 name="codCond"
                 type="text"
@@ -39,7 +39,7 @@
           </tr>
           <tr>
             <td>DATA PARA PAGAMENTO</td>
-            <td>
+            <td id="td-dataPag">
               <input type="date" name="dataPag">
             </td>
           </tr>
@@ -48,7 +48,7 @@
           </tr>
           <tr>
             <td>VALOR</td>
-            <td>
+            <td id="td-valorPag">
               R$:
               <input
                 type="Text"
@@ -79,8 +79,8 @@
           </tr>
           <tr>
             <td>FAVORECIDO</td>
-            <td>
-              <input type="text" placeholder="Digite o nome do Favorecido">
+            <td id="td-nomeFavorecido">
+              <input type="text" placeholder="Digite o nome do Favorecido" name="nomeFavorecido">
             </td>
           </tr>
           <tr>
@@ -88,7 +88,7 @@
           </tr>
           <tr>
             <td>CNPJ/CPF</td>
-            <td>
+            <td id="td-cpfCnpjFavorecido">
               <input
                 type="text"
                 id="inputCpfCnpj"
@@ -105,10 +105,15 @@
           <tr id="linhaPix"></tr>
           <tr>
             <td>BANCO</td>
-            <td>
+            <td id="td-nomeBanco">
               <form action="" autocomplete="off">
                 <div class="autocompleteWrapper" id="autocompleteWrapper">
-                  <input id="autocompleteInput" type="text" placeholder="número ou nome do banco">
+                  <input
+                    id="autocompleteInput"
+                    type="text"
+                    placeholder="número ou nome do banco"
+                    name="nomeBanco"
+                  >
                 </div>
               </form>
             </td>
@@ -118,8 +123,8 @@
           </tr>
           <tr>
             <td>AGÊNCIA</td>
-            <td>
-              <input type="text" placeholder="XXXXX">
+            <td id="td-agenciaBnc">
+              <input type="text" placeholder="XXXXX" name="agenciaBnc">
             </td>
           </tr>
           <tr>
@@ -132,8 +137,8 @@
                 <option value="poupanca">CONTA POUPANÇA</option>
               </select>
             </td>
-            <td>
-              <input type="text" placeholder="XXXXXXX">
+            <td id="td-contaBnc">
+              <input type="text" placeholder="XXXXXXX" name="contaBnc">
             </td>
           </tr>
           <tr>
@@ -246,8 +251,8 @@
           </tr>
           <tr>
             <td>ASSINATURA GERENTE</td>
-            <td>
-              <input type="text" placeholder="Digite o nome do Gerente" name="gerente">
+            <td id="td-nomeGerente">
+              <input type="text" placeholder="Digite o nome do Gerente" name="nomeGerente">
             </td>
           </tr>
           <tr>
@@ -273,21 +278,12 @@
           </tr>
         </table>
       </form>
-      <div id="msgErro">Preencha todos os campos!</div>
       <br>
     </div>
     <div class="container2">
       <button type="submit" class="imprimir btn-form" id="btn1">Imprimir</button>
       <button type="submit" class="limpar btn-form" id="btn2">Limpar</button>
     </div>
-    <!--
-    <script src="../js/main.js"></script>
-    <script src="../js/inputMask.js"></script>
-    <script src="../js/timeStamp.js"></script>
-    <script src="../js/autocomplet.js"></script>
-    <script src="../js/toLog.js"></script>
-    <script src="../js/rwLog.js" type="module"></script>
-    -->
     <script src="./assets/js/bundle.js"></script>
   </body>
 </html>

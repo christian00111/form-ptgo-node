@@ -87,6 +87,53 @@ function autocoplet() {
 
 /***/ }),
 
+/***/ "./src/modules/buscaCond.js":
+/*!**********************************!*\
+  !*** ./src/modules/buscaCond.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ buscaCond)
+/* harmony export */ });
+function buscaCond() {
+  var codCond = document.getElementById('codCond');
+  var cond = document.getElementById('cond');
+  var condCNPJ = document.getElementById('condCNPJ');
+  if (codCond.value !== '') {
+    try {
+      fetch("../src/database/condominios.json").then(function (response) {
+        response.json().then(function (data) {
+          function retornaCond(valor) {
+            if (valor.cod == codCond.value) {
+              return valor;
+            } else {
+              cond.innerHTML = 'condomínio não encontrado';
+              condCNPJ.innerHTML = 'CNPJ não encontrado';
+            }
+          }
+          var condECnpj = data.filter(retornaCond);
+          condECnpj.forEach(function (e) {
+            cond.innerHTML = '';
+            cond.innerHTML = "\n                            <td id=\"cond\">".concat(e.condominio, "</td>\n                            ");
+            condCNPJ.innerHTML = '';
+            condCNPJ.innerHTML = "\n                             <td id=\"condCNPJ\">".concat(e.cnpj, "</td>\n                            ");
+          });
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+    cond.innerHTML = '-';
+    condCNPJ.innerHTML = '-';
+  }
+}
+
+/***/ }),
+
 /***/ "./src/modules/imprimiTela.js":
 /*!************************************!*\
   !*** ./src/modules/imprimiTela.js ***!
@@ -223,7 +270,7 @@ function selecTipoPag() {
         return v;
       };
       chavePix.innerHTML = '';
-      chavePix.innerHTML = "\n        <td>\n            CHAVE PIX (CPF)\n        </td>\n        <td id=\"tipoChavePix\">\n            <input\n            type=\"text\"\n            id=\"inputCpf\"\n            placeholder=\"Digite o CPF da Chave Pix\"\n            maxlength=\"14\"\n            >\n        </td>\n        ";
+      chavePix.innerHTML = "\n        <td>\n            CHAVE PIX (CPF)\n        </td>\n        <td id=\"tipoChavePix\">\n            <input\n            type=\"text\"\n            id=\"inputCpf\"\n            placeholder=\"Digite o CPF da Chave Pix\"\n            maxlength=\"14\"\n            name=\"pixCPF\"\n            >\n        </td>\n        ";
       linhaPix.innerHTML = "\n        <tr id=\"linhaPix\">\n          <td colspan=\"2\" class=\"primaryColor\"></td>\n        </tr>\n        ";
       var inputCpf = document.querySelector('#inputCpf');
       inputCpf.addEventListener('input', function () {
@@ -235,12 +282,12 @@ function selecTipoPag() {
     }
     if (selectPag.value === 'pixEmail') {
       chavePix.innerHTML = '';
-      chavePix.innerHTML = "\n        <td>\n            CHAVE PIX (E-MAIL)\n        </td>\n        <td id=\"tipoChavePix\">\n            <input \n            style=\"text-transform: lowercase;\"\n            type=\"email\"\n            id=\"inputEmail\"\n            placeholder=\"Digite o E-mail da Chave Pix\"\n            required\n            >\n        </td>\n        ";
+      chavePix.innerHTML = "\n        <td>\n            CHAVE PIX (E-MAIL)\n        </td>\n        <td id=\"tipoChavePix\">\n            <input \n            style=\"text-transform: lowercase;\"\n            type=\"email\"\n            id=\"inputEmail\"\n            placeholder=\"Digite o E-mail da Chave Pix\"\n            name=\"pixEmail\"\n            required\n            >\n        </td>\n        ";
       linhaPix.innerHTML = "\n        <tr id=\"linhaPix\">\n          <td colspan=\"2\" class=\"primaryColor\"></td>\n        </tr>\n        ";
     }
     if (selectPag.value === 'pixTel') {
       chavePix.innerHTML = '';
-      chavePix.innerHTML = "\n        <td>\n            CHAVE PIX (TELEFONE)\n        </td>\n        <td id=\"tipoChavePix\">\n            <input\n            type=\"tel\"\n            id=\"inputTel\"\n            placeholder=\"Digite o Telefone da Chave Pix\"\n            maxlength=\"15\"\n            >\n        </td>\n        ";
+      chavePix.innerHTML = "\n        <td>\n            CHAVE PIX (TELEFONE)\n        </td>\n        <td id=\"tipoChavePix\">\n            <input\n            type=\"tel\"\n            id=\"inputTel\"\n            placeholder=\"Digite o Telefone da Chave Pix\"\n            maxlength=\"15\"\n            name=\"pixTel\"\n            >\n        </td>\n        ";
       linhaPix.innerHTML = "\n        <tr id=\"linhaPix\">\n          <td colspan=\"2\" class=\"primaryColor\"></td>\n        </tr>\n        ";
     }
   });
@@ -290,54 +337,91 @@ function timeStampNow() {
 
 /***/ }),
 
-/***/ "./src/modules/trazCond.js":
-/*!*********************************!*\
-  !*** ./src/modules/trazCond.js ***!
-  \*********************************/
+/***/ "./src/modules/validacao.js":
+/*!**********************************!*\
+  !*** ./src/modules/validacao.js ***!
+  \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ trazCond)
+/* harmony export */   "default": () => (/* binding */ validacao)
 /* harmony export */ });
-var codCond = document.getElementById('codCond');
-var cond = document.getElementById('cond');
-var condCNPJ = document.getElementById('condCNPJ');
-var valorCod = codCond.value.trim();
-function trazCond() {
-  if (codCond.value === '') {
-    cond.innerHTML = '-';
-    condCNPJ.innerHTML = '-';
-    // document.getElementById('msgErro').style.display = 'block'
-    // setInterval(() => {
-    //     document.getElementById('msgErro').style.display = 'none'
-    // }, 7000)
-  } else {
-    try {
-      var idCond = [];
-      fetch("../src/database/condominios.json").then(function (response) {
-        response.json().then(function (data) {
-          console.log(codCond.value);
-          data.map(function (cods) {
-            if (cods.cod == codCond.value) {
-              cond.innerHTML = '';
-              cond.innerHTML = "\n                            <td id=\"cond\">".concat(cods.condominio, "</td>\n                             ");
-              condCNPJ.innerHTML = '';
-              condCNPJ.innerHTML = "\n                            <td id=\"condCNPJ\">".concat(cods.cnpj, "</td>\n                             ");
-            } else {
-              cond.innerHTML = '';
-              cond.innerHTML = 'condomínio não encontrado';
-              cond.innerHTML = 'condomínio não encontrado';
-              condCNPJ.innerHTML = 'CNPJ não encontrado';
-            }
-          });
-        });
-      });
-    } catch (e) {
-      console.error(e);
+/* harmony import */ var _imprimiTela__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./imprimiTela */ "./src/modules/imprimiTela.js");
+
+var codCond = document.getElementById('td-codCond');
+var dataPag = document.getElementById('td-dataPag');
+var valorPag = document.getElementById('td-valorPag');
+var nomeFavorecido = document.getElementById('td-nomeFavorecido');
+var cpfCnpjFavorecido = document.getElementById('td-cpfCnpjFavorecido');
+var nomeBanco = document.getElementById('td-nomeBanco');
+var agenciaBnc = document.getElementById('td-agenciaBnc');
+var contaBnc = document.getElementById('td-contaBnc');
+var nomeGerente = document.getElementById('td-nomeGerente');
+var formaDePagamento = document.getElementById('formaDePagamento');
+function validacao(data) {
+  var controle = 0;
+  if (data.codCond == '') {
+    codCond.classList.add("errosTd");
+    controle = 1;
+  }
+  if (data.dataPag == '') {
+    dataPag.classList.add("errosTd");
+    controle = 1;
+  }
+  if (data.valorPag == '') {
+    valorPag.classList.add("errosTd");
+    controle = 1;
+  }
+  if (data.nomeFavorecido == '') {
+    nomeFavorecido.classList.add("errosTd");
+    controle = 1;
+  }
+  if (data.cpfCnpjFavorecido == '') {
+    cpfCnpjFavorecido.classList.add("errosTd");
+    controle = 1;
+  }
+  if (data.nomeBanco == '') {
+    nomeBanco.classList.add("errosTd");
+    controle = 1;
+  }
+  if (data.agenciaBnc == '') {
+    agenciaBnc.classList.add("errosTd");
+    controle = 1;
+  }
+  if (data.contaBnc == '') {
+    contaBnc.classList.add("errosTd");
+    controle = 1;
+  }
+  if (data.nomeGerente == '') {
+    nomeGerente.classList.add("errosTd");
+    controle = 1;
+  }
+  if (formaDePagamento.value !== 'transBanc') {
+    if ((data.pixCPF | data.pixEmail | data.pixTel) == '') {
+      var _tipoChavePix = document.getElementById('tipoChavePix');
+      _tipoChavePix.classList.add("errosTd");
+      controle = 1;
     }
   }
+  if (controle == 0) {
+    (0,_imprimiTela__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  }
+  var interval = setInterval(function () {
+    codCond.classList.remove("errosTd");
+    dataPag.classList.remove("errosTd");
+    valorPag.classList.remove("errosTd");
+    nomeFavorecido.classList.remove("errosTd");
+    cpfCnpjFavorecido.classList.remove("errosTd");
+    nomeBanco.classList.remove("errosTd");
+    agenciaBnc.classList.remove("errosTd");
+    contaBnc.classList.remove("errosTd");
+    nomeGerente.classList.remove("errosTd");
+    if (formaDePagamento.value !== 'transBanc') {
+      tipoChavePix.classList.remove("errosTd");
+    }
+  }, 3500);
 }
 
 /***/ }),
@@ -20314,7 +20398,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".container {\r\n    width: 745px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n}\r\n\r\n.inline {\r\n    display: flex;\r\n    margin-bottom: 10px;\r\n    font-size: 19px;\r\n    padding-left: 8px;\r\n}\r\n\r\n.primaryColor {\r\n    background: cornflowerblue;\r\n}\r\n\r\n.inputMenor {\r\n    width: 184px;\r\n}\r\n\r\nh1 {\r\n    padding-left: 16px;\r\n}\r\n\r\ninput {\r\n    text-align: center;\r\n    width: 300px;\r\n}\r\n\r\ntable,\r\nth,\r\ntd {\r\n    border: 1px solid black;\r\n    border-collapse: collapse;\r\n    text-align: center;\r\n    margin: 0px;\r\n}\r\n\r\nth,\r\ntd {\r\n    padding: 5px 10px;\r\n}\r\n\r\n* {\r\n    font-family: Arial, Helvetica, sans-serif;\r\n}\r\n\r\ntextarea,\r\nselect,\r\ninput,\r\ntextarea:focus,\r\ninput:focus,\r\nselect:focus {\r\n    box-shadow: 0 0 0 0;\r\n    border: 0 none;\r\n    outline: 0;\r\n    font-family: Arial, Helvetica, sans-serif;\r\n    font-size: 15px;\r\n    text-transform: uppercase;\r\n}\r\n\r\nselect {\r\n    text-align: center;\r\n}\r\n\r\n.selectStart {\r\n    text-align: start;\r\n}\r\n\r\n.erros {\r\n    border: solid 1px red;\r\n    border-radius: 5px;\r\n}\r\n\r\n#msgErro {\r\n    display: none;\r\n    color: red;\r\n\r\n}\r\n\r\nbutton {\r\n    cursor: pointer;\r\n}\r\n\r\nbutton:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.imprimir,\r\n.limpar {\r\n    background: cornflowerblue;\r\n    color: white;\r\n    font-size: large;\r\n    border-radius: 5px;\r\n    align-items: center;\r\n    padding: 10px 30px 10px 30px;\r\n    margin-bottom: 25px;\r\n    cursor: pointer;\r\n}\r\n\r\n.imprimir:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.limpar:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.container2 {\r\n    width: 300px;\r\n    padding-right: 60px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    display: flex;\r\n    justify-content: space-between;\r\n\r\n}\r\n\r\n.errosTd {\r\n    border: 3px solid red;\r\n}\r\n\r\n.autocompleteList {\r\n    background: white;\r\n    list-style: none;\r\n    padding: unset;\r\n    margin: unset;\r\n    position: absolute;\r\n    width: 100%;\r\n    max-height: 200px;\r\n    overflow-y: auto;\r\n}\r\n\r\n.autocompleteList button {\r\n    border: unset;\r\n    background: unset;\r\n    display: block;\r\n    width: 100%;\r\n    text-align: left;\r\n    padding: 0.5em;\r\n}\r\n\r\n.autocompleteList li {\r\n    border: 1px solid rgb(198, 198, 198);\r\n    border-top: unset;\r\n}\r\n\r\n.autocompleteList li:hover {\r\n    background: rgb(219, 218, 218);\r\n}\r\n\r\n.autocompleteWrapper {\r\n    display: inline-block;\r\n    position: relative;\r\n}", "",{"version":3,"sources":["webpack://./src/assets/css/style.css"],"names":[],"mappings":"AAAA;IACI,YAAY;IACZ,iBAAiB;IACjB,kBAAkB;AACtB;;AAEA;IACI,aAAa;IACb,mBAAmB;IACnB,eAAe;IACf,iBAAiB;AACrB;;AAEA;IACI,0BAA0B;AAC9B;;AAEA;IACI,YAAY;AAChB;;AAEA;IACI,kBAAkB;AACtB;;AAEA;IACI,kBAAkB;IAClB,YAAY;AAChB;;AAEA;;;IAGI,uBAAuB;IACvB,yBAAyB;IACzB,kBAAkB;IAClB,WAAW;AACf;;AAEA;;IAEI,iBAAiB;AACrB;;AAEA;IACI,yCAAyC;AAC7C;;AAEA;;;;;;IAMI,mBAAmB;IACnB,cAAc;IACd,UAAU;IACV,yCAAyC;IACzC,eAAe;IACf,yBAAyB;AAC7B;;AAEA;IACI,kBAAkB;AACtB;;AAEA;IACI,iBAAiB;AACrB;;AAEA;IACI,qBAAqB;IACrB,kBAAkB;AACtB;;AAEA;IACI,aAAa;IACb,UAAU;;AAEd;;AAEA;IACI,eAAe;AACnB;;AAEA;IACI,4BAA4B;AAChC;;AAEA;;IAEI,0BAA0B;IAC1B,YAAY;IACZ,gBAAgB;IAChB,kBAAkB;IAClB,mBAAmB;IACnB,4BAA4B;IAC5B,mBAAmB;IACnB,eAAe;AACnB;;AAEA;IACI,4BAA4B;AAChC;;AAEA;IACI,4BAA4B;AAChC;;AAEA;IACI,YAAY;IACZ,mBAAmB;IACnB,iBAAiB;IACjB,kBAAkB;IAClB,aAAa;IACb,8BAA8B;;AAElC;;AAEA;IACI,qBAAqB;AACzB;;AAEA;IACI,iBAAiB;IACjB,gBAAgB;IAChB,cAAc;IACd,aAAa;IACb,kBAAkB;IAClB,WAAW;IACX,iBAAiB;IACjB,gBAAgB;AACpB;;AAEA;IACI,aAAa;IACb,iBAAiB;IACjB,cAAc;IACd,WAAW;IACX,gBAAgB;IAChB,cAAc;AAClB;;AAEA;IACI,oCAAoC;IACpC,iBAAiB;AACrB;;AAEA;IACI,8BAA8B;AAClC;;AAEA;IACI,qBAAqB;IACrB,kBAAkB;AACtB","sourcesContent":[".container {\r\n    width: 745px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n}\r\n\r\n.inline {\r\n    display: flex;\r\n    margin-bottom: 10px;\r\n    font-size: 19px;\r\n    padding-left: 8px;\r\n}\r\n\r\n.primaryColor {\r\n    background: cornflowerblue;\r\n}\r\n\r\n.inputMenor {\r\n    width: 184px;\r\n}\r\n\r\nh1 {\r\n    padding-left: 16px;\r\n}\r\n\r\ninput {\r\n    text-align: center;\r\n    width: 300px;\r\n}\r\n\r\ntable,\r\nth,\r\ntd {\r\n    border: 1px solid black;\r\n    border-collapse: collapse;\r\n    text-align: center;\r\n    margin: 0px;\r\n}\r\n\r\nth,\r\ntd {\r\n    padding: 5px 10px;\r\n}\r\n\r\n* {\r\n    font-family: Arial, Helvetica, sans-serif;\r\n}\r\n\r\ntextarea,\r\nselect,\r\ninput,\r\ntextarea:focus,\r\ninput:focus,\r\nselect:focus {\r\n    box-shadow: 0 0 0 0;\r\n    border: 0 none;\r\n    outline: 0;\r\n    font-family: Arial, Helvetica, sans-serif;\r\n    font-size: 15px;\r\n    text-transform: uppercase;\r\n}\r\n\r\nselect {\r\n    text-align: center;\r\n}\r\n\r\n.selectStart {\r\n    text-align: start;\r\n}\r\n\r\n.erros {\r\n    border: solid 1px red;\r\n    border-radius: 5px;\r\n}\r\n\r\n#msgErro {\r\n    display: none;\r\n    color: red;\r\n\r\n}\r\n\r\nbutton {\r\n    cursor: pointer;\r\n}\r\n\r\nbutton:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.imprimir,\r\n.limpar {\r\n    background: cornflowerblue;\r\n    color: white;\r\n    font-size: large;\r\n    border-radius: 5px;\r\n    align-items: center;\r\n    padding: 10px 30px 10px 30px;\r\n    margin-bottom: 25px;\r\n    cursor: pointer;\r\n}\r\n\r\n.imprimir:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.limpar:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.container2 {\r\n    width: 300px;\r\n    padding-right: 60px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    display: flex;\r\n    justify-content: space-between;\r\n\r\n}\r\n\r\n.errosTd {\r\n    border: 3px solid red;\r\n}\r\n\r\n.autocompleteList {\r\n    background: white;\r\n    list-style: none;\r\n    padding: unset;\r\n    margin: unset;\r\n    position: absolute;\r\n    width: 100%;\r\n    max-height: 200px;\r\n    overflow-y: auto;\r\n}\r\n\r\n.autocompleteList button {\r\n    border: unset;\r\n    background: unset;\r\n    display: block;\r\n    width: 100%;\r\n    text-align: left;\r\n    padding: 0.5em;\r\n}\r\n\r\n.autocompleteList li {\r\n    border: 1px solid rgb(198, 198, 198);\r\n    border-top: unset;\r\n}\r\n\r\n.autocompleteList li:hover {\r\n    background: rgb(219, 218, 218);\r\n}\r\n\r\n.autocompleteWrapper {\r\n    display: inline-block;\r\n    position: relative;\r\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".container {\r\n    width: 745px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n}\r\n\r\n.inline {\r\n    display: flex;\r\n    margin-bottom: 10px;\r\n    font-size: 19px;\r\n    padding-left: 8px;\r\n}\r\n\r\n.primaryColor {\r\n    background: cornflowerblue;\r\n}\r\n\r\n.inputMenor {\r\n    width: 184px;\r\n}\r\n\r\nh1 {\r\n    padding-left: 16px;\r\n}\r\n\r\ninput {\r\n    text-align: center;\r\n    width: 300px;\r\n}\r\n\r\ntable,\r\nth,\r\ntd {\r\n    border: 1px solid black;\r\n    border-collapse: collapse;\r\n    text-align: center;\r\n    margin: 0px;\r\n}\r\n\r\nth,\r\ntd {\r\n    padding: 5px 10px;\r\n}\r\n\r\n* {\r\n    font-family: Arial, Helvetica, sans-serif;\r\n}\r\n\r\ntextarea,\r\nselect,\r\ninput,\r\ntextarea:focus,\r\ninput:focus,\r\nselect:focus {\r\n    box-shadow: 0 0 0 0;\r\n    border: 0 none;\r\n    outline: 0;\r\n    font-family: Arial, Helvetica, sans-serif;\r\n    font-size: 15px;\r\n    text-transform: uppercase;\r\n}\r\n\r\nselect {\r\n    text-align: center;\r\n}\r\n\r\n.selectStart {\r\n    text-align: start;\r\n}\r\n\r\nbutton {\r\n    cursor: pointer;\r\n}\r\n\r\nbutton:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.imprimir,\r\n.limpar {\r\n    background: cornflowerblue;\r\n    color: white;\r\n    font-size: large;\r\n    border-radius: 5px;\r\n    align-items: center;\r\n    padding: 10px 30px 10px 30px;\r\n    margin-bottom: 25px;\r\n    cursor: pointer;\r\n}\r\n\r\n.imprimir:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.limpar:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.container2 {\r\n    width: 300px;\r\n    padding-right: 60px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    display: flex;\r\n    justify-content: space-between;\r\n\r\n}\r\n\r\n.autocompleteList {\r\n    background: white;\r\n    list-style: none;\r\n    padding: unset;\r\n    margin: unset;\r\n    position: absolute;\r\n    width: 100%;\r\n    max-height: 200px;\r\n    overflow-y: auto;\r\n}\r\n\r\n.autocompleteList button {\r\n    border: unset;\r\n    background: unset;\r\n    display: block;\r\n    width: 100%;\r\n    text-align: left;\r\n    padding: 0.5em;\r\n}\r\n\r\n.autocompleteList li {\r\n    border: 1px solid rgb(198, 198, 198);\r\n    border-top: unset;\r\n}\r\n\r\n.autocompleteList li:hover {\r\n    background: rgb(219, 218, 218);\r\n}\r\n\r\n.autocompleteWrapper {\r\n    display: inline-block;\r\n    position: relative;\r\n}\r\n\r\n.errosTd {\r\n    border: 3px solid red;\r\n}\r\n\r\n.msgErro {\r\n    display: none;\r\n}", "",{"version":3,"sources":["webpack://./src/assets/css/style.css"],"names":[],"mappings":"AAAA;IACI,YAAY;IACZ,iBAAiB;IACjB,kBAAkB;AACtB;;AAEA;IACI,aAAa;IACb,mBAAmB;IACnB,eAAe;IACf,iBAAiB;AACrB;;AAEA;IACI,0BAA0B;AAC9B;;AAEA;IACI,YAAY;AAChB;;AAEA;IACI,kBAAkB;AACtB;;AAEA;IACI,kBAAkB;IAClB,YAAY;AAChB;;AAEA;;;IAGI,uBAAuB;IACvB,yBAAyB;IACzB,kBAAkB;IAClB,WAAW;AACf;;AAEA;;IAEI,iBAAiB;AACrB;;AAEA;IACI,yCAAyC;AAC7C;;AAEA;;;;;;IAMI,mBAAmB;IACnB,cAAc;IACd,UAAU;IACV,yCAAyC;IACzC,eAAe;IACf,yBAAyB;AAC7B;;AAEA;IACI,kBAAkB;AACtB;;AAEA;IACI,iBAAiB;AACrB;;AAEA;IACI,eAAe;AACnB;;AAEA;IACI,4BAA4B;AAChC;;AAEA;;IAEI,0BAA0B;IAC1B,YAAY;IACZ,gBAAgB;IAChB,kBAAkB;IAClB,mBAAmB;IACnB,4BAA4B;IAC5B,mBAAmB;IACnB,eAAe;AACnB;;AAEA;IACI,4BAA4B;AAChC;;AAEA;IACI,4BAA4B;AAChC;;AAEA;IACI,YAAY;IACZ,mBAAmB;IACnB,iBAAiB;IACjB,kBAAkB;IAClB,aAAa;IACb,8BAA8B;;AAElC;;AAEA;IACI,iBAAiB;IACjB,gBAAgB;IAChB,cAAc;IACd,aAAa;IACb,kBAAkB;IAClB,WAAW;IACX,iBAAiB;IACjB,gBAAgB;AACpB;;AAEA;IACI,aAAa;IACb,iBAAiB;IACjB,cAAc;IACd,WAAW;IACX,gBAAgB;IAChB,cAAc;AAClB;;AAEA;IACI,oCAAoC;IACpC,iBAAiB;AACrB;;AAEA;IACI,8BAA8B;AAClC;;AAEA;IACI,qBAAqB;IACrB,kBAAkB;AACtB;;AAEA;IACI,qBAAqB;AACzB;;AAEA;IACI,aAAa;AACjB","sourcesContent":[".container {\r\n    width: 745px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n}\r\n\r\n.inline {\r\n    display: flex;\r\n    margin-bottom: 10px;\r\n    font-size: 19px;\r\n    padding-left: 8px;\r\n}\r\n\r\n.primaryColor {\r\n    background: cornflowerblue;\r\n}\r\n\r\n.inputMenor {\r\n    width: 184px;\r\n}\r\n\r\nh1 {\r\n    padding-left: 16px;\r\n}\r\n\r\ninput {\r\n    text-align: center;\r\n    width: 300px;\r\n}\r\n\r\ntable,\r\nth,\r\ntd {\r\n    border: 1px solid black;\r\n    border-collapse: collapse;\r\n    text-align: center;\r\n    margin: 0px;\r\n}\r\n\r\nth,\r\ntd {\r\n    padding: 5px 10px;\r\n}\r\n\r\n* {\r\n    font-family: Arial, Helvetica, sans-serif;\r\n}\r\n\r\ntextarea,\r\nselect,\r\ninput,\r\ntextarea:focus,\r\ninput:focus,\r\nselect:focus {\r\n    box-shadow: 0 0 0 0;\r\n    border: 0 none;\r\n    outline: 0;\r\n    font-family: Arial, Helvetica, sans-serif;\r\n    font-size: 15px;\r\n    text-transform: uppercase;\r\n}\r\n\r\nselect {\r\n    text-align: center;\r\n}\r\n\r\n.selectStart {\r\n    text-align: start;\r\n}\r\n\r\nbutton {\r\n    cursor: pointer;\r\n}\r\n\r\nbutton:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.imprimir,\r\n.limpar {\r\n    background: cornflowerblue;\r\n    color: white;\r\n    font-size: large;\r\n    border-radius: 5px;\r\n    align-items: center;\r\n    padding: 10px 30px 10px 30px;\r\n    margin-bottom: 25px;\r\n    cursor: pointer;\r\n}\r\n\r\n.imprimir:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.limpar:hover {\r\n    background: rgb(55, 86, 143);\r\n}\r\n\r\n.container2 {\r\n    width: 300px;\r\n    padding-right: 60px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    display: flex;\r\n    justify-content: space-between;\r\n\r\n}\r\n\r\n.autocompleteList {\r\n    background: white;\r\n    list-style: none;\r\n    padding: unset;\r\n    margin: unset;\r\n    position: absolute;\r\n    width: 100%;\r\n    max-height: 200px;\r\n    overflow-y: auto;\r\n}\r\n\r\n.autocompleteList button {\r\n    border: unset;\r\n    background: unset;\r\n    display: block;\r\n    width: 100%;\r\n    text-align: left;\r\n    padding: 0.5em;\r\n}\r\n\r\n.autocompleteList li {\r\n    border: 1px solid rgb(198, 198, 198);\r\n    border-top: unset;\r\n}\r\n\r\n.autocompleteList li:hover {\r\n    background: rgb(219, 218, 218);\r\n}\r\n\r\n.autocompleteWrapper {\r\n    display: inline-block;\r\n    position: relative;\r\n}\r\n\r\n.errosTd {\r\n    border: 3px solid red;\r\n}\r\n\r\n.msgErro {\r\n    display: none;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21643,11 +21727,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_timeStamp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/timeStamp */ "./src/modules/timeStamp.js");
 /* harmony import */ var _modules_inputMask__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/inputMask */ "./src/modules/inputMask.js");
 /* harmony import */ var _modules_autocomplet__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/autocomplet */ "./src/modules/autocomplet.js");
-/* harmony import */ var _modules_trazCond__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/trazCond */ "./src/modules/trazCond.js");
-/* harmony import */ var _modules_imprimiTela__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/imprimiTela */ "./src/modules/imprimiTela.js");
+/* harmony import */ var _modules_imprimiTela__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/imprimiTela */ "./src/modules/imprimiTela.js");
+/* harmony import */ var _modules_buscaCond__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/buscaCond */ "./src/modules/buscaCond.js");
+/* harmony import */ var _modules_validacao__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/validacao */ "./src/modules/validacao.js");
 
 
 // para navegadores mais antigos...
+
 
 
 
@@ -21660,6 +21746,7 @@ __webpack_require__.r(__webpack_exports__);
 (0,_modules_timeStamp__WEBPACK_IMPORTED_MODULE_4__["default"])();
 (0,_modules_inputMask__WEBPACK_IMPORTED_MODULE_5__["default"])();
 (0,_modules_autocomplet__WEBPACK_IMPORTED_MODULE_6__["default"])();
+var formEl = document.getElementById('form-pgto');
 document.addEventListener('click', function (e) {
   var el = e.target;
   var nomeClass = el.className.toLowerCase();
@@ -21669,16 +21756,15 @@ document.addEventListener('click', function (e) {
   }
   if (nomeClass === 'imprimir btn-form') {
     e.preventDefault();
-    (0,_modules_trazCond__WEBPACK_IMPORTED_MODULE_7__["default"])();
-    (0,_modules_imprimiTela__WEBPACK_IMPORTED_MODULE_8__["default"])();
-    //validaCampos()
+    var formData = new FormData(formEl);
+    var data = Object.fromEntries(formData);
+    (0,_modules_validacao__WEBPACK_IMPORTED_MODULE_9__["default"])(data);
+    //imprimirTela()
   }
 });
 
 var codCond = document.getElementById('codCond');
-document.addEventListener('keyup', function () {
-  (0,_modules_trazCond__WEBPACK_IMPORTED_MODULE_7__["default"])();
-});
+codCond.addEventListener('keyup', _modules_buscaCond__WEBPACK_IMPORTED_MODULE_8__["default"]);
 })();
 
 /******/ })()

@@ -19,6 +19,7 @@ function selecTipoPag() {
             id="inputCpf"
             placeholder="Digite o CPF da Chave Pix"
             maxlength="14"
+            name="pixCPF"
             >
         </td>
         `
@@ -62,6 +63,7 @@ function selecTipoPag() {
             type="email"
             id="inputEmail"
             placeholder="Digite o E-mail da Chave Pix"
+            name="pixEmail"
             required
             >
         </td>
@@ -83,6 +85,7 @@ function selecTipoPag() {
             id="inputTel"
             placeholder="Digite o Telefone da Chave Pix"
             maxlength="15"
+            name="pixTel"
             >
         </td>
         `
