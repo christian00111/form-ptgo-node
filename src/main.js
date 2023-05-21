@@ -29,8 +29,8 @@ document.addEventListener('click', e => {
         e.preventDefault()
         const formData = new FormData(formEl)
         const data = Object.fromEntries(formData)
-        validacao(data)
-        //imprimirTela()
+        //validacao(data)
+        imprimirTela()
     }
 });
 

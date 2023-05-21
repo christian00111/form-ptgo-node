@@ -9,7 +9,7 @@ export default function autocoplet() {
     let idBancos = [];
 
     async function testeArray() {
-        const res = await fetch("../src/database/bancos.json");
+        const res = await fetch("/database/bancos.json");
         const data = await res.json();
 
 

@@ -31,7 +31,7 @@ function autocoplet() {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return fetch("../src/database/bancos.json");
+            return fetch("/database/bancos.json");
           case 2:
             res = _context.sent;
             _context.next = 5;
@@ -104,7 +104,7 @@ function buscaCond() {
   var condCNPJ = document.getElementById('condCNPJ');
   if (codCond.value !== '') {
     try {
-      fetch("../src/database/condominios.json").then(function (response) {
+      fetch("/database/condominios.json").then(function (response) {
         response.json().then(function (data) {
           function retornaCond(valor) {
             if (valor.cod == codCond.value) {
@@ -21758,11 +21758,10 @@ document.addEventListener('click', function (e) {
     e.preventDefault();
     var formData = new FormData(formEl);
     var data = Object.fromEntries(formData);
-    (0,_modules_validacao__WEBPACK_IMPORTED_MODULE_9__["default"])(data);
-    //imprimirTela()
+    //validacao(data)
+    (0,_modules_imprimiTela__WEBPACK_IMPORTED_MODULE_7__["default"])();
   }
 });
-
 var codCond = document.getElementById('codCond');
 codCond.addEventListener('keyup', _modules_buscaCond__WEBPACK_IMPORTED_MODULE_8__["default"]);
 })();

@@ -5,7 +5,7 @@ export default function buscaCond() {
 
     if (codCond.value !== '') {
         try {
-            fetch("../src/database/condominios.json").then((response) => {
+            fetch("/database/condominios.json").then((response) => {
                 response.json().then((data) => {
                     function retornaCond(valor) {
                         if (valor.cod == codCond.value) {
