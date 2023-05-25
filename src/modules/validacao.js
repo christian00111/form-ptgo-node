@@ -52,7 +52,17 @@ export default function validacao(data) {
         controle = 1
     }
     if (formaDePagamento.value !== 'transBanc') {
-        if ((data.pixCPF | data.pixEmail | data.pixTel) == '') {
+        if (data.pixCPF == '') {
+            const tipoChavePix = document.getElementById('tipoChavePix')
+            tipoChavePix.classList.add("errosTd");
+            controle = 1
+        }
+        if (data.pixEmail == '') {
+            const tipoChavePix = document.getElementById('tipoChavePix')
+            tipoChavePix.classList.add("errosTd");
+            controle = 1
+        }
+        if (data.pixTel == '') {
             const tipoChavePix = document.getElementById('tipoChavePix')
             tipoChavePix.classList.add("errosTd");
             controle = 1

@@ -399,9 +399,19 @@ function validacao(data) {
     controle = 1;
   }
   if (formaDePagamento.value !== 'transBanc') {
-    if ((data.pixCPF | data.pixEmail | data.pixTel) == '') {
+    if (data.pixCPF == '') {
       var _tipoChavePix = document.getElementById('tipoChavePix');
       _tipoChavePix.classList.add("errosTd");
+      controle = 1;
+    }
+    if (data.pixEmail == '') {
+      var _tipoChavePix2 = document.getElementById('tipoChavePix');
+      _tipoChavePix2.classList.add("errosTd");
+      controle = 1;
+    }
+    if (data.pixTel == '') {
+      var _tipoChavePix3 = document.getElementById('tipoChavePix');
+      _tipoChavePix3.classList.add("errosTd");
       controle = 1;
     }
   }
@@ -21758,10 +21768,11 @@ document.addEventListener('click', function (e) {
     e.preventDefault();
     var formData = new FormData(formEl);
     var data = Object.fromEntries(formData);
-    //validacao(data)
-    (0,_modules_imprimiTela__WEBPACK_IMPORTED_MODULE_7__["default"])();
+    (0,_modules_validacao__WEBPACK_IMPORTED_MODULE_9__["default"])(data);
+    //imprimirTela()
   }
 });
+
 var codCond = document.getElementById('codCond');
 codCond.addEventListener('keyup', _modules_buscaCond__WEBPACK_IMPORTED_MODULE_8__["default"]);
 })();
