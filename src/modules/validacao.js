@@ -35,18 +35,7 @@ export default function validacao(data) {
         cpfCnpjFavorecido.classList.add("errosTd");
         controle = 1
     }
-    if (data.nomeBanco == '') {
-        nomeBanco.classList.add("errosTd");
-        controle = 1
-    }
-    if (data.agenciaBnc == '') {
-        agenciaBnc.classList.add("errosTd");
-        controle = 1
-    }
-    if (data.contaBnc == '') {
-        contaBnc.classList.add("errosTd");
-        controle = 1
-    }
+
     if (data.nomeGerente == '') {
         nomeGerente.classList.add("errosTd");
         controle = 1
@@ -65,6 +54,19 @@ export default function validacao(data) {
         if (data.pixTel == '') {
             const tipoChavePix = document.getElementById('tipoChavePix')
             tipoChavePix.classList.add("errosTd");
+            controle = 1
+        }
+    } else {
+        if (data.nomeBanco == '') {
+            nomeBanco.classList.add("errosTd");
+            controle = 1
+        }
+        if (data.agenciaBnc == '') {
+            agenciaBnc.classList.add("errosTd");
+            controle = 1
+        }
+        if (data.contaBnc == '') {
+            contaBnc.classList.add("errosTd");
             controle = 1
         }
     }

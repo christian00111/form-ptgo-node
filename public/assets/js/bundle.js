@@ -382,18 +382,6 @@ function validacao(data) {
     cpfCnpjFavorecido.classList.add("errosTd");
     controle = 1;
   }
-  if (data.nomeBanco == '') {
-    nomeBanco.classList.add("errosTd");
-    controle = 1;
-  }
-  if (data.agenciaBnc == '') {
-    agenciaBnc.classList.add("errosTd");
-    controle = 1;
-  }
-  if (data.contaBnc == '') {
-    contaBnc.classList.add("errosTd");
-    controle = 1;
-  }
   if (data.nomeGerente == '') {
     nomeGerente.classList.add("errosTd");
     controle = 1;
@@ -412,6 +400,19 @@ function validacao(data) {
     if (data.pixTel == '') {
       var _tipoChavePix3 = document.getElementById('tipoChavePix');
       _tipoChavePix3.classList.add("errosTd");
+      controle = 1;
+    }
+  } else {
+    if (data.nomeBanco == '') {
+      nomeBanco.classList.add("errosTd");
+      controle = 1;
+    }
+    if (data.agenciaBnc == '') {
+      agenciaBnc.classList.add("errosTd");
+      controle = 1;
+    }
+    if (data.contaBnc == '') {
+      contaBnc.classList.add("errosTd");
       controle = 1;
     }
   }
